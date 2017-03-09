@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<title>Hang Man Game</title>
+	<link rel="stylesheet" type="text/css" href="assets/css/reset.css"> 
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css"> 
+
+</head>
+<body>
+
+
+    <aside id = "aside">
+		<h2> Press any key to start - The key that you press is your first guess </h2>
+		<h4>You have six times to incorrectly guess, and then you lose. Good Luck!! </h4>
+
+		<div id = "game">      	</div>
+    	<h3  id = "dash">      	</h3>
+    	<h3  id = "remaining"> 	</h3>			
+    	<div id = "picked">    	</div>
+    	<div id = "wins">      	</div>
+    	<div id = "looses">    	</div>
+   		<div id = "playAgain"> 	</div>
+    </aside>
+
+    <canvas id="myCanvas" width="300" height="500">
+		
+	</canvas>
+
+
+	<script type="text/javascript">
+
+	 	// Drawing The hang man fram. 
+
+			var canvas = document.getElementById("myCanvas");
+			var ctx = canvas.getContext("2d");
+
+            ctx.beginPath();
+            ctx.strokeStyle = '#777777';
+
+			ctx.moveTo(60,50);
+			ctx.lineTo(60,430);
+
+			ctx.moveTo(60,50);
+			ctx.lineTo(200,50);
+
+			ctx.moveTo(200,50);
+			ctx.lineTo(200,100);
+
+			ctx.moveTo(10,430);
+			ctx.lineTo(110,430);
+
+			ctx.moveTo(10,430);
+			ctx.lineTo(10,450);
+
+			ctx.moveTo(110,430);
+			ctx.lineTo(110,450);
+
+			ctx.moveTo(10,450);
+			ctx.lineTo(110,450);
+
+			ctx.stroke();
+		
+		
+		// This function to determin if two arrays are equal or not.
+         function equal(arrayA, arrayB) {
+         	if(arrayA.length !== arrayB.length)
+         		return false;
+         	for(var i = 0; i < arrayA.length; i++) {
+         		if (arrayA[i] !== arrayB[i]) {
+         			return false
+         		}// end if
+         	}// end for
+         	return true;
+         }// end of function equal(arrayA, arrayB)
+	
+
+	   
+		var names = ["alex", "chris", "will", "don", "james", "steve", "jack", "tom","henrry", "tod", "gerry", "ben", "jim"];
+		var wins = 0;
+		var looses = 0;
+		
+        startOver();
+
+
+	  // ================================================================//
+      // Start Over: Every time you win or lose the code jumps over here //
+	 //=================================================================//
+		
+      function startOver(){
+      	
+      	// This line to clear the hang man body.
+      	ctx.clearRect(150,99,110,168);
+
+		//The below variable which is computerChoice has the current name or the cmputer choice.
+		var computerChoice = names[Math.floor (Math.random() * names.length)];
+		var dashCount = computerChoice.length;
+		var html = "<p> The current male name has " + dashCount + " letters</p>";
+		var computerChoiceArray = computerChoice.split("");
+        var count = 0;
+        var guessesRemaining = dashCount;
+
+		//This array to store dashes that equal to the number of the name letter and then to store the correct user guess.
+		var dashes = [];
+
+		//This array to store the letters that the user incorrectly picked.
+		var pickedLetters = [];
+		
+		// For loop to enter double underscore that equal to the number of the letter in the computer choice into dashes array
+		for (var i = 0; i < dashCount; i++) {
+			dashes.push('__');
+		}
+
+
+		document.querySelector('#game').innerHTML = html;
+		document.querySelector('#dash').innerHTML = dashes.join(' ');
+		document.querySelector('#remaining').innerHTML = " Number of Guesses Remaining is " + guessesRemaining;
+
+		// Whenever a user presses a key and then release it, the code performs the follwoing function/actions:
+		document.onkeyup = function() {
+
+			var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
+
+			//The follwoing if statement determines that if the user's input matching one or more letters of the computer choice with the help of for loop.
+			for (var i = 0; i < dashCount; i++) {
+				if (computerChoice[i] === userGuess) {
+					dashes[i] = userGuess;
+				}// end if
+
+			}// end for
+
+			//Number of Guesses remaining
+			guessesRemaining = 0;
+			for (var i = 0; i < dashCount; i++) {
+				if (dashes[i] === '__') 
+				{
+					guessesRemaining++;
+			 	}//end if
+			 }// end for
+
+			document.querySelector('#remaining').innerHTML = " Number of Guesses Remaining is " + guessesRemaining;
+			guessesRemaining = 0;
+
+			//This loop to get the index of a letter if the letter is equal to the user input in pickedLetters array.
+			for (var i = 0; i < pickedLetters.length; i++) {
+				if (pickedLetters[i] === userGuess) 
+				{
+					break;
+				}//end if
+			}// end for
+
+
+			//This loop to get the index of a letter if the letter is equal to the user input in dashes array.
+			for (var n = 0; n < dashes.length; n++) {
+				if (dashes[n] === userGuess) 
+				{
+					break;
+				}//end if
+			}// end for
+
+
+			// This if statement to make sure that the user input is not in the arrays which are pickedLetters and dashes already.
+			// To avoid doublicate a letter in the array pickedLetters
+		    if ((pickedLetters[i] !== userGuess) && (dashes[n] !== userGuess)) {
+				pickedLetters.push(userGuess);
+
+				// Count here to count how many times the user makes a bad choice
+				count++;
+
+				//The following lines to draw the hang man body.
+				switch(count) {
+					
+					case 1:
+						ctx.beginPath();
+						ctx.arc(200,130,30,0,2*Math.PI);
+						ctx.strokeStyle = 'red';
+						ctx.stroke();
+						break;
+
+					case 2:
+						ctx.moveTo(200,160);
+						ctx.lineTo(200,230);
+						ctx.stroke();
+						break;
+
+					case 3:
+						ctx.moveTo(200,180);
+						ctx.lineTo(230,200);
+						ctx.stroke();
+						break;
+
+					case 4:
+						ctx.moveTo(200,180);
+						ctx.lineTo(170,200);
+						ctx.stroke();
+						break;
+
+					case 5:
+						ctx.moveTo(200,230);
+						ctx.lineTo(230,250);
+						ctx.stroke();
+						break;
+
+					case 6:
+						ctx.moveTo(200,230);
+						ctx.lineTo(170,250);
+						ctx.stroke();
+						ctx.closePath();
+						break;
+
+
+				}//end switch
+
+			}// end if
+			
+			// to determine how many times the user loses.
+			if ( pickedLetters.length == 6) {
+				     looses++; 
+				     pickedLetters = [];
+				     dashes = ['?????????'];
+				     document.querySelector('#dash').innerHTML = dashes.join(' ');
+				    
+				    if (looses === 1) {
+				    document.querySelector('#looses').innerHTML = "<p> You lost " + looses + " time.</p>";
+				     }
+				     else {
+				     	document.querySelector('#looses').innerHTML = "<p> You lost " + looses + " times.</p>";	
+				     }
+				    document.querySelector('#playAgain').innerHTML = "<p>  press any key to play again. The key you press is your first Guess!!</p>";
+
+				    // This function delays calling startOver function 1000 milliseconds
+				    setTimeout(startOver, 1000);
+
+			}// end if
+
+			// The follwoing if statement to determine how many times the user wins.
+			// It calls function equal(arrayA, arrayB)
+				if (equal(dashes, computerChoiceArray)){
+					wins++;
+				    pickedLetters = [];
+				    dashes = ['?????????'];
+				    document.querySelector('#dash').innerHTML = dashes.join(' ');
+				    
+
+				    if (wins === 1) { 
+				    	 document.querySelector('#wins').innerHTML = "<p> You won " + wins + " time.</p>";
+				    }
+				    else {
+				    	 document.querySelector('#wins').innerHTML = "<p> You won " + wins + " times.</p>";
+				    }
+				    document.querySelector('#playAgain').innerHTML = "<p>  press any key to play again. The key you press is your first Guess!!</p>";
+				    
+				    // This function delays calling startOver function 1000 milliseconds
+				    setTimeout(startOver, 1000);
+				}// end if
+			
+
+
+
+
+			document.querySelector('#dash').innerHTML = dashes.join(' ');
+			document.querySelector('#picked').innerHTML = "<p> Letters are already picked. </p>" + pickedLetters;
+			
+
+		}// end of document.onkeyup = function()
+	
+	}// end of function startOver()
+
+	</script>
+</body>
+</html>

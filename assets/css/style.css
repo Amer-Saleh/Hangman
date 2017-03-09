@@ -1,0 +1,66 @@
+
+html { height: 100%;
+ }
+
+*{
+	box-sizing: border-box;
+	font-family: Arial, 'Helvetica Neue', Helvtica, sans-serif;
+}
+
+
+body {
+	background-image: url("../images/background.png");	
+	color: #777777;
+	min-height:100%; 
+    position:relative; 
+    padding-bottom:[footer-height]
+}
+
+
+h2 {
+	font-family: Georgia, Times, 'Times New Roman', serif;
+	color: #4aaaa5;
+	padding-bottom: 20px;
+}
+
+h4, h3, #picked {
+	padding-bottom: 20px;
+}
+
+
+
+p {
+	text-align: center;
+	padding-bottom: 20px;
+}
+
+#wins, #looses{
+	color: blue;
+	font-style: bold;
+}
+
+#aside {
+	float: right;
+	margin: 80px;
+	margin-right: 150px;
+	margin-top: 120px;
+	width: 500px;
+	height: 380px;
+	padding-top: 40px;
+	border-style: solid;
+	border-width: 3px;
+	border-color: #4aaaa5;
+	text-align: center;
+}
+
+#myCanvas {
+	float: left;
+	margin-top: 80px;
+	margin-left: 150px;
+	margin-bottom: 50px;
+	padding-left:  38px;
+	border-style: solid;
+	border-width: 3px;
+	border-color: #4aaaa5;
+}
+
