@@ -73,9 +73,7 @@
          	}// end for
          	return true;
          }// end of function equal(arrayA, arrayB)
-	
 
-	   
 		var names = ["alex", "chris", "will", "don", "james", "steve", "jack", "tom","henrry", "tod", "gerry", "ben", "jim"];
 		var wins = 0;
 		var looses = 0;
@@ -216,9 +214,8 @@
 			// to determine how many times the user loses.
 			if ( pickedLetters.length == 6) {
 				     looses++; 
+				     setTimeout(document.querySelector('#dash').innerHTML = dashes.join(' '),1000);
 				     pickedLetters = [];
-				     dashes = ['?????????'];
-				     document.querySelector('#dash').innerHTML = dashes.join(' ');
 				    
 				    if (looses === 1) {
 				    document.querySelector('#looses').innerHTML = "<p> You lost " + looses + " time.</p>";
@@ -237,10 +234,8 @@
 			// It calls function equal(arrayA, arrayB)
 				if (equal(dashes, computerChoiceArray)){
 					wins++;
-				    pickedLetters = [];
-				    dashes = ['?????????'];
-				    document.querySelector('#dash').innerHTML = dashes.join(' ');
-				    
+					setTimeout(document.querySelector('#dash').innerHTML = dashes.join(' '),1000);
+				     pickedLetters = [];
 
 				    if (wins === 1) { 
 				    	 document.querySelector('#wins').innerHTML = "<p> You won " + wins + " time.</p>";
